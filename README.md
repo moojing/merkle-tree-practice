@@ -5,3 +5,5 @@ this repo is the code content for quiz4, to proof the hash of the word `zkplaygr
 
 
 
+# Resources 
+- https://medium.com/taipei-ethereum-meetup/merkle-tree-in-javascript-de9a707ce5c6
