@@ -56,7 +56,7 @@ const sendData = async () => {
   var myContract = new web3.eth.Contract(SmartContractABI, SmartContractAddress);
 
   var allHashes = [
-    '0x760785a457f46af4582b62962c4d96be98c68df9619556fa20af3c286343bf81',
+      '0x760785a457f46af4582b62962c4d96be98c68df9619556fa20af3c286343bf81',
       '0x2098ddd01d6035049de112333af26442bb3009ea06b6df66fccfadf8adee9914',
       '0x4648dfc788d015b20cb30bd312820680fe7f126a5211202b924ea67fe8cc3cfe',
       '0xb592fdc51ce49d7670e27b3a500873a78d0f29b39d1f368cf73e7b38a6c206d7',
@@ -89,25 +89,26 @@ const sendData = async () => {
     proofPath.push(getPathPairHash(targetIndex,allHashes))
 
     const L2TargetLeave = add0x(getLevelLeaves([targetHash,proofPath[0]])[0])
-    // console.log('L2TargetLeave :', L2TargetLeave);
-
     const L2PairLeave = getPathPairHash(L2Hashes.indexOf(L2TargetLeave),L2Hashes)
     proofPath.push(L2PairLeave)
 
     const L3TargetLeave = add0x(getLevelLeaves([L2TargetLeave,L2PairLeave])[0])
-    // console.log('L3TargetLeave :', L3TargetLeave);
+    const L3PairLeave =  getPathPairHash(L3Hashes.indexOf(L3TargetLeave),L3Hashes)
+    proofPath.push(L3PairLeave)
 
-    proofPath.push(getPathPairHash(L3Hashes.indexOf(L3TargetLeave),L3Hashes))
     return proofPath
   }
 
+  // proof ans 
+  // '0x2098ddd01d6035049de112333af26442bb3009ea06b6df66fccfadf8adee9914',
+  // '0xb4435d3d2bb4863bffe2dd7c4a217641efe9da99b177cef8693fe26910a2bf04',
+  // '0x7c8d8e6486e95d2eaff942ec8eb9b732d53596cb06548b62ff4841438a25a5d4'
   const proof = getProof('0x760785a457f46af4582b62962c4d96be98c68df9619556fa20af3c286343bf81')
-  console.log('proof :', proof);
   try {
   const result = await myContract.methods.merkleProof(proof).send({
     from: ADDRESS
   });
-  console.log('result :', result);
+  
   } catch (error) {
     console.log(error);
   }
